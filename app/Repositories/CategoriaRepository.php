@@ -7,12 +7,20 @@ use App\Models\Categoria;
 
 class CategoriaRepository
 {
-    public function all()
+    public function all($perPage = 10)
     {
-        return Categoria::with('produtos')->get();
+        $paginacao = CategoriaResource::collection(Categoria::with('produtos')->paginate($perPage));
+
+        return [
+            'total' => $paginacao->total(),
+            'por_pagina' => $paginacao->perPage(),
+            'pagina' => $paginacao->currentPage(),
+            'ultima_pagina' => $paginacao->lastPage(),
+            'dados' => CategoriaResource::collection($paginacao->items()),
+        ];
     }
 
-    public function getCategoriasComProdutos($perPage = 10)
+    public function getCategoriasComProdutos($perPage = 10): array
     {
         $paginacao = Categoria::with('produtos')
             ->has('produtos')
@@ -29,12 +37,12 @@ class CategoriaRepository
 
     public function find($id)
     {
-        return Categoria::with('produtos')->find($id);
+        return new CategoriaResource(Categoria::with('produtos')->find($id));
     }
 
     public function create($data)
     {
-        return Categoria::create($data);
+        return new CategoriaResource(Categoria::create($data));
     }
 
     public function update($id, $data)
@@ -42,7 +50,7 @@ class CategoriaRepository
         $categoria = Categoria::find($id);
         if ($categoria) {
             $categoria->update($data);
-            return $categoria;
+            return new CategoriaResource($categoria);
         }
         return null;
     }

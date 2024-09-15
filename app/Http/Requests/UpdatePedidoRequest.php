@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\EstadoPedido;
 use App\Models\Pedido;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdatePedidoRequest extends FormRequest
 {
@@ -23,12 +25,12 @@ class UpdatePedidoRequest extends FormRequest
     public function rules()
     {
         $pedidoId = $this->route('pedido');
-
         $pedido = Pedido::find($pedidoId);
 
         return [
             'estado' => [
                 'required',
+                new Enum(EstadoPedido::class),
                 function ($attribute, $value, $fail) use ($pedido) {
                     if ($pedido && $value === $pedido->estado) {
                         $fail("O estado enviado é igual ao estado atual do pedido.");

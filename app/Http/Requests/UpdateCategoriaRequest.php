@@ -21,10 +21,10 @@ class UpdateCategoriaRequest extends FormRequest
      */
     public function rules()
     {
-        $categoriaId = $this->route('categoria');
+        $categoria = $this->route('categoria');
 
         return [
-            'nome' => 'required|string|max:255|unique:categorias,nome,' . $categoriaId,
+            'nome' => 'required|string|max:255|unique:categorias,nome,' . $categoria->id,
         ];
     }
 }

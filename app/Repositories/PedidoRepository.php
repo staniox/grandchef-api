@@ -43,7 +43,6 @@ class PedidoRepository
     public function create($produtos)
     {
         $pedido = new Pedido();
-        $pedido->estado = 'aberto';
 
         $precoTotal = $this->pedidoService->calcularPrecoTotal($produtos);
         $pedido->preco_total = $precoTotal;
