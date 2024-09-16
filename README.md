@@ -6,8 +6,14 @@ GrandChef API é uma aplicação RESTful desenvolvida em Laravel 11, projetada p
 
 - **Docker** (>=20.10.0)
 - **Docker Compose** (>=2.0.0)
+- **GIT**
 
 ## Instalação com Docker
+
+> **Aviso**: Caso prefira, você pode executar os comandos sem o prefixo `docker-compose exec app`.  
+> Esse prefixo foi adicionado apenas para facilitar a utilização e evitar que seja necessário acessar o container diretamente.  
+> Se estiver rodando o ambiente localmente sem Docker, pode rodar os comandos normalmente no seu terminal.
+
 
 1. Clone este repositório:
     ```bash
@@ -127,3 +133,29 @@ A API segue uma estrutura **RESTful**, implementando as operações de **CRUD** 
     {
         "estado": "concluido"
     }
+
+## Testes
+
+### Como rodar os testes
+
+1. Antes de rodar os testes, é necessário configurar o banco de dados de teste.
+   Execute o seguinte comando para rodar as migrations no ambiente de teste:
+
+   ```bash
+   docker-compose exec app php artisan migrate --env=testing
+
+Durante esse processo, será perguntado se você deseja criar o banco de dados de teste. Responda "yes" para continuar.
+
+Após rodar as migrations, você pode rodar os testes utilizando o PestPHP com o comando:
+
+    docker-compose exec app vendor/bin/pest
+
+Ou, se preferir, utilize o comando do artisan:
+
+    docker-compose exec app php artisan test
+
+Os testes incluem validações para operações de criação e atualização de pedidos via API, garantindo que as regras de negócio sejam respeitadas.
+
+
+
+

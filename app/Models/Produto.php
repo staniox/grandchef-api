@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Produto extends Model
 {
+
+    use HasFactory;
+
     protected $fillable = ['nome', 'preco', 'categoria_id'];
 
     public function categoria(): BelongsTo

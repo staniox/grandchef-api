@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Pedido extends Model
 {
+
+    use HasFactory;
+
     protected $fillable = ['estado', 'preco_total'];
 
     protected $attributes = [
